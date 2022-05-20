@@ -8,8 +8,8 @@
       </div>
       <div class="w-4/5 py-2 px-8 relative">
             <span
-                v-if="filterString"
-                @click="filterString = ''"
+                v-if="filterString2"
+                @click="filterString2 = ''"
                 class="cursor-pointer text-primary absolute clear-filter-icon"
                 :title="__('Clear filter')">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -102,7 +102,8 @@ export default {
       languages: [],
       useTabs: true,
       filterString: '',
-      filterString2: ''
+      filterString2: '',
+      filterdTranslations2: []
     }
   },
   mounted() {
@@ -139,14 +140,33 @@ export default {
       }
 
       return filtered;
-    },
-    filterdTranslations2() {
-      return this.filterdTranslations.concat(this.changedTranslations)
     }
   },
   methods: {
     handleSearch(){
-      this.filterString = this.filterString2;
+      let filtered = {};
+
+      if(this.filterString2) {
+        for(let groupName in this.translations) {
+          const group = this.translations[groupName];
+          filtered[groupName] = {};
+
+          for(let key in group) {
+            for(let lang in group[key]) {
+              const text = group[key][lang],
+                reg = new RegExp(this.filterString2, 'i');
+              if(text.match(reg) || key.match(reg)) {
+                filtered[groupName][key] = group[key];
+              }
+            }
+          }
+        }
+      }
+      else {
+        filtered = this.translations;
+      }
+
+      this.filterdTranslations2 = filtered;
     },
     getData() {
       Nova.request().get(this.apiUrl + 'index').then(response => {
