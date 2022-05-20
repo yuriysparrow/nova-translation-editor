@@ -26,7 +26,7 @@
 
     <card v-if="showTable" class="my-6">
       <nav class="bg-white px-8 pt-2 border-b-2 border-50 overflow-x-auto overflow-y-hidden text-center cursor-pointer whitespace-nowrap">
-          <a v-for="(translation, group) in filterdTranslations" :key="group"
+          <a v-for="(translation, group) in filterdTranslations2" :key="group"
               :class="currentGroup === group ? 'text-primary border-primary' : ' text-grey border-transparent'"
               class="no-underline border-b-2 uppercase tracking-wide font-bold text-s py-3 mx-2 px-3 inline-block"
               @click="currentGroup = group">
@@ -34,7 +34,7 @@
           </a>
       </nav>
 
-      <div v-for="(translation, group) in filterdTranslations" v-if="currentGroup === group" :key="group + 'tab'" class="overflow-x-auto">
+      <div v-for="(translation, group) in filterdTranslations2" v-if="currentGroup === group" :key="group + 'tab'" class="overflow-x-auto">
         <table class="table w-full">
           <thead>
           <tr>
@@ -140,6 +140,9 @@ export default {
 
       return filtered;
     },
+    filterdTranslations2() {
+      return this.filterdTranslations.concat(this.changedTranslations)
+    }
   },
   methods: {
     handleSearch(){
