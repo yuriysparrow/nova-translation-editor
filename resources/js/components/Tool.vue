@@ -17,16 +17,13 @@
         <input type="text"
                :placeholder="__('Filter') + ': By key or translation'"
                class="w-4/5 form-control form-input form-input-bordered"
-               v-model="filterString2"/>
-        <button type="button" @click="handleSearch" class="btn btn-default btn-primary mr-3 ml-3">
-            Поиск
-        </button>
+               v-model="filterString"/>
       </div>
     </div>
 
     <card v-if="showTable" class="my-6">
       <nav class="bg-white px-8 pt-2 border-b-2 border-50 overflow-x-auto overflow-y-hidden text-center cursor-pointer whitespace-nowrap">
-          <a v-for="(translation, group) in filterdTranslations" :key="group"
+          <a v-for="(translation, group) in filterdTranslations2" :key="group"
               :class="currentGroup === group ? 'text-primary border-primary' : ' text-grey border-transparent'"
               class="no-underline border-b-2 uppercase tracking-wide font-bold text-s py-3 mx-2 px-3 inline-block"
               @click="currentGroup = group">
@@ -34,7 +31,7 @@
           </a>
       </nav>
 
-      <div v-for="(translation, group) in filterdTranslations" v-if="currentGroup === group" :key="group + 'tab'" class="overflow-x-auto">
+      <div v-for="(translation, group) in filterdTranslations2" v-if="currentGroup === group" :key="group + 'tab'" class="overflow-x-auto">
         <table class="table w-full">
           <thead>
           <tr>
@@ -101,8 +98,7 @@ export default {
       loaded: false,
       languages: [],
       useTabs: true,
-      filterString: '',
-      filterString2: ''
+      filterString: ''
     }
   },
   mounted() {
@@ -140,11 +136,11 @@ export default {
 
       return filtered;
     },
+    filterdTranslations2() {
+      return Array.concat(this.filterdTranslations, this.changedTranslations)
+    }
   },
   methods: {
-    handleSearch(){
-      this.filterString = this.filterString2;
-    },
     getData() {
       Nova.request().get(this.apiUrl + 'index').then(response => {
         this.loaded = true;
