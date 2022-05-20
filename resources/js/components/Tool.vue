@@ -173,6 +173,7 @@ export default {
         this.loaded = true;
         if (response.data && response.data.translations) {
           this.translations = response.data.translations;
+          this.filterdTranslations2 = response.data.translations;
           this.languages = response.data.languages;
           this.currentGroup = Object.keys(this.translations)[0];
         }
