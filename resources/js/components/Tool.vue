@@ -18,6 +18,9 @@
                :placeholder="__('Filter') + ': By key or translation'"
                class="w-4/5 form-control form-input form-input-bordered"
                v-model="filterString"/>
+        <button type="button" @click="handleSearch" class="btn btn-default btn-primary mr-3 ml-3">
+            Поиск
+        </button>
       </div>
     </div>
 
@@ -98,7 +101,8 @@ export default {
       loaded: false,
       languages: [],
       useTabs: true,
-      filterString: ''
+      filterString: '',
+      filterString2: ''
     }
   },
   mounted() {
@@ -136,11 +140,14 @@ export default {
 
       return filtered;
     },
-    filterdTranslations2() {
+     filterdTranslations2() {
       return Array.concat(this.filterdTranslations, this.changedTranslations)
     }
   },
   methods: {
+    handleSearch(){
+      this.filterString = this.filterString2;
+    },
     getData() {
       Nova.request().get(this.apiUrl + 'index').then(response => {
         this.loaded = true;
