@@ -16,9 +16,9 @@
             </span>
         <input type="text"
                :placeholder="__('Filter') + ': By key or translation'"
-               class="w-full form-control form-input form-input-bordered"
+               class="w-4/5 form-control form-input form-input-bordered"
                v-model="filterString2"/>
-        <button type="button" class="btn btn-default btn-primary mr-3 ml-3">
+        <button type="button" @click="handleSearch" class="btn btn-default btn-primary mr-3 ml-3">
             Поиск
         </button>
       </div>
